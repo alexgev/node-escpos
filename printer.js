@@ -500,15 +500,15 @@ Printer.prototype.image = async function (image, density) {
   // added a delay so the printer can process the graphical data
   // when connected via slower connection ( e.g.: Serial)
   this.lineSpace(0); // set line spacing to 0
-  bitmap.data.forEach(async (line) => {
+  for (let i = 0; i < bitmap.data.length; i++) {
     self.buffer.write(header);
-    self.buffer.writeUInt16LE(line.length / n);
-    self.buffer.write(line);
+    self.buffer.writeUInt16LE(bitmap.data[i].length / n);
+    self.buffer.write(bitmap.data[i]);
     self.buffer.write(_.EOL);
     await new Promise((resolve, reject) => {
-      setTimeout(() => { resolve(true) }, 200);
-    });
-  });
+      setTimeout(() => {resolve(true);}, 100);
+    })
+  }
   return this.lineSpace();
 };
 
