@@ -2,6 +2,7 @@
 const getPixels = require('get-pixels');
 
 var PNG = require('pngjs').PNG;
+var ndarray       = require('ndarray');
 
 
 
