@@ -1,6 +1,50 @@
 'use strict';
 const getPixels = require('get-pixels');
 
+var PNG = require('pngjs').PNG;
+
+
+
+
+function doParse(mimeType, data, cb) {
+  switch(mimeType) {
+    case 'image/png':
+      handlePNG(data, cb);
+      break
+
+    // case 'image/jpg':
+    // case 'image/jpeg':
+    //   handleJPEG(data, cb)
+    //   break
+    //
+    // case 'image/gif':
+    //   handleGIF(data, cb)
+    //   break
+    //
+    // case 'image/bmp':
+    //   handleBMP(data, cb)
+    //   break
+
+    default:
+      cb(new Error("Unsupported file type: " + mimeType))
+  }
+}
+
+
+function handlePNG(data, cb) {
+  var png = new PNG();
+  png.parse(data, function(err, img_data) {
+    if(err) {
+      cb(err)
+      return
+    }
+    cb(null, ndarray(new Uint8Array(img_data.data),
+      [img_data.width|0, img_data.height|0, 4],
+      [4, 4*img_data.width|0, 1],
+      0))
+  })
+}
+
 /**
  * [Image description]
  * @param {[type]} pixels [description]
@@ -52,6 +96,16 @@ Image.load = function(url, type, callback){
     callback(new Image(pixels));
   });
 };
+
+
+Image.loadPngData = function(data, type = 'image/png', callback) {
+  if(typeof type == 'function'){
+    callback = type;
+    type = null;
+  }
+
+  doParse(type, data, callback)
+}
 
 /**
  * [description]

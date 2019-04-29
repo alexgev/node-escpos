@@ -29,12 +29,13 @@
   "homepage": "https://github.com/song940/node-escpos#readme",
   "dependencies": {
     "iconv-lite": "*",
-    "mutable-buffer": "^2.0.3"
+    "mutable-buffer": "^2.0.3",
+    "pngjs": "^3.4.0"
   },
   "optionalDependencies": {
     "get-pixels": "*",
-    "serialport": "*",
     "qr-image": "*",
+    "serialport": "*",
     "usb": "*"
   },
   "devDependencies": {
